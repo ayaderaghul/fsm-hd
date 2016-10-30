@@ -8,10 +8,10 @@
 
 ;; CONFIGURATION
 (define N 100)
-(define CYCLES 500)
+(define CYCLES 5000)
 (define SPEED 10)
 (define ROUNDS 400)
-(define DELTA .99)
+(define DELTA .9)
 (define MUTATION 10)
 
 
@@ -107,11 +107,13 @@
 (define (plot-mean data delta rounds pic-file pic-name)
   (define reward (* 5 (compound delta rounds)))
   (define punishment (* 1 (compound delta rounds)))
+  (define fair (* 3 (compound delta rounds)))
   ;(define reward 3)
   ;(define punishment 1)
   (define reward-line (function (lambda (x) reward) #:color "blue"))
   (define punishment-line (function (lambda (x) punishment) #:color "red"))
-  (plot (list reward-line punishment-line
+  (define fair-line (function (lambda (x) fair) #:color "green"))
+  (plot (list reward-line punishment-line fair-line
               (population-mean->lines data))
         #:x-label "cycles" #:y-label "population mean"
         #:out-file pic-file #:title pic-name
